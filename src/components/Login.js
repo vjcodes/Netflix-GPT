@@ -4,15 +4,23 @@ import { checkValidData } from "../utils/validate";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
+import { useNavigate } from "react-router-dom";
+import { addUser } from "../utils/userSlice";
+import { useDispatch } from "react-redux";
 
 const Login = () => {
   const [isSignInForm, setIsSignInform] = useState(true);
   const [errorMsg, setErrorMsg] = useState(null);
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const email = useRef(null);
   const password = useRef(null);
+  const name = useRef(null);
 
   const toggleSignInForm = () => {
     setIsSignInform(!isSignInForm);
@@ -37,7 +45,29 @@ const Login = () => {
         .then((userCredential) => {
           // Signed up
           const user = userCredential.user;
-          console.log(user);
+          updateProfile(user, {
+            displayName: name.current.value,
+            photoURL:
+              "https://www.befunky.com/images/prismic/5ddfea42-7377-4bef-9ac4-f3bd407d52ab_landing-photo-to-cartoon-img5.jpeg?auto=avif,webp&format=jpg&width=863",
+          })
+            .then(() => {
+              // Profile updated!
+              console.log(user);
+              const { uid, email, displayName, photoURL } = auth.currentUser;
+              dispatch(
+                addUser({
+                  uid: uid,
+                  email: email,
+                  displayName: displayName,
+                  photoURL: photoURL,
+                })
+              );
+              navigate("/browse");
+            })
+            .catch((error) => {
+              // An error occurred
+              setErrorMsg(error.message);
+            });
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -55,6 +85,7 @@ const Login = () => {
           // Signed in
           const user = userCredential.user;
           console.log(user);
+          navigate("/browse");
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -80,6 +111,7 @@ const Login = () => {
 
         {!isSignInForm && (
           <input
+            ref={name}
             type="text"
             placeholder="Full Name"
             className="p-4 my-4 w-full bg-gray-700"
