@@ -1,12 +1,25 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Header from "./Header";
+import { checkValidData } from "../utils/validate";
 
 const Login = () => {
   const [isSignInForm, setIsSignInform] = useState(true);
+  const [errorMsg, setErrorMsg] = useState(null);
+
+  const email = useRef(null);
+  const password = useRef(null);
 
   const toggleSignInForm = () => {
     setIsSignInform(!isSignInForm);
   };
+
+  const handleButtonClick = () => {
+    // validate the form data
+    // console.log(email.current.value, password.current.value)
+    const message = checkValidData(email.current.value, password.current.value);
+    setErrorMsg(message)
+  };
+
   return (
     <div>
       <Header />
@@ -33,15 +46,25 @@ const Login = () => {
           type="text"
           placeholder="Email Address"
           className="p-4 my-4 w-full bg-gray-700"
+          ref={email}
         />
 
         <input
           type="password"
           placeholder="Password"
           className="p-4 my-4 w-full bg-gray-700"
+          ref={password}
         />
 
-        <button className="p-4 my-6 bg-red-700 w-full rounded-lg">
+        <p className="text-red-800 font-bold text-lg py-2">{errorMsg}</p>
+
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            handleButtonClick();
+          }}
+          className="p-4 my-6 bg-red-700 w-full rounded-lg"
+        >
           {isSignInForm ? "Sign In" : "Sign Up"}
         </button>
 
