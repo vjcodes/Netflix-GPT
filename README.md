@@ -16,7 +16,8 @@
 - Implemented sign out
 - Update Profile
 - Bugfix: Signup user display name and profile picture update
-- if user is logged in Redirect /browse to Login Page and vice vers
+- if user is logged in Redirect /browse to Login Page and vice versa
+- Unsubscribed to onAuthStateChanged callback
 
 
 

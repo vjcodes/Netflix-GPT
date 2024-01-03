@@ -13,7 +13,7 @@ const Header = () => {
   //keeping it here as we need this in the whole project
   //where its under router component to use navigate
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/auth.user
@@ -33,18 +33,21 @@ const Header = () => {
         navigate("/");
       }
     });
+
+    // unsubscribe when component gets unmount
+    return () => unsubscribe();
+    
   }, [dispatch, navigate]);
 
   const handleSignOut = () => {
     signOut(auth)
-      .then(() => {
-      })
+      .then(() => {})
       .catch((error) => {
         // An error happened.
         // navigate("/error")
       });
   };
-  
+
   return (
     <div className="flex justify-between items-center w-screen absolute px-8 py-2 bg-gradient-to-b from-black z-10">
       <img
