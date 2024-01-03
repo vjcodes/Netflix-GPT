@@ -9,6 +9,7 @@ import {
 import { auth } from "../utils/firebase";
 import { addUser } from "../utils/userSlice";
 import { useDispatch } from "react-redux";
+import { USER_AVATAR } from "../utils/constants";
 
 const Login = () => {
   const [isSignInForm, setIsSignInform] = useState(true);
@@ -26,7 +27,6 @@ const Login = () => {
 
   const handleButtonClick = () => {
     // validate the form data
-    // console.log(email.current.value, password.current.value)
     const message = checkValidData(email.current.value, password.current.value);
     setErrorMsg(message);
 
@@ -45,12 +45,10 @@ const Login = () => {
           const user = userCredential.user;
           updateProfile(user, {
             displayName: name.current.value,
-            photoURL:
-              "https://www.befunky.com/images/prismic/5ddfea42-7377-4bef-9ac4-f3bd407d52ab_landing-photo-to-cartoon-img5.jpeg?auto=avif,webp&format=jpg&width=863",
+            photoURL: USER_AVATAR,
           })
             .then(() => {
               // Profile updated!
-              console.log(user);
               const { uid, email, displayName, photoURL } = auth.currentUser;
               dispatch(
                 addUser({
@@ -81,7 +79,6 @@ const Login = () => {
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
-          console.log(user);
         })
         .catch((error) => {
           const errorCode = error.code;
