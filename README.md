@@ -45,6 +45,10 @@
 - Store movie names and search movie results in store
 - store TMDB keys and Open ai keys in .env file
 - Showed movie results on the gpt page
+- Memoization
+- Added .env file
+- Adding env file to gitignore
+- Made website responsive(mobile) using tailwind
 
 
 # Features
