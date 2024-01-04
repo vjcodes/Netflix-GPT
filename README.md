@@ -35,7 +35,11 @@
 - TMDB Image CDN URL
 - Made browse page ui look better with tailwind css
 - usePopularMovies custom hook
-
+- GPT Search Feature
+- created gptSlice
+- created search ui for gpt
+- Implemented multi lingual feature in gpt search page
+- created config slice
 
 
 # Features
