@@ -40,6 +40,11 @@
 - created search ui for gpt
 - Implemented multi lingual feature in gpt search page
 - created config slice
+- Integrate GPT apis
+- After getting results from gpt apis search the movie names in from TMDB api
+- Store movie names and search movie results in store
+- store TMDB keys and Open ai keys in .env file
+- Showed movie results on the gpt page
 
 
 # Features
